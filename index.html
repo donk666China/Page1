@@ -6,6 +6,7 @@
   <title>Donk666China | 个人主页</title>
   <meta name="description" content="欢迎来到 Donk666China 的个人主页，这里展示我的项目、技能与联系方式。" />
   <style>
+    /* ===== 全局基础变量 ===== */
     :root {
       --bg: #ffffff; --text: #1a1a1a; --accent: #2563eb;
       --card-bg: #f8fafc; --border: #e2e8f0;
@@ -21,7 +22,6 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* 布局 */
     .container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
     header { padding: 4rem 0 2rem; text-align: center; }
     h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
@@ -30,23 +30,61 @@
     section { padding: 3rem 0; border-top: 1px solid var(--border); }
     h2 { font-size: 1.75rem; margin-bottom: 1.5rem; }
 
-    /* 项目卡片网格 */
+    /* ===== 通用卡片样式 ===== */
     .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
     .card h3 { margin-bottom: 0.5rem; }
     .card p { font-size: 0.95rem; opacity: 0.85; }
+    .card-img { width: 100%; border-radius: 6px; cursor: pointer; display: block; aspect-ratio: 4/3; object-fit: cover; }
 
-    /* 技能标签 */
+    /* ===== 项目一 · 恋爱粉专属主题 ===== */
+    /* 色值来源：SchemeColor Soft Rose Pink / Pale Valentine / Figma Soft Pink */
+    .card.love-pink {
+      --lp-bg: #FFF0F3;       /* Lavender Blush 卡片背景 */
+      --lp-border: #FFD6E4;   /* Mimi Pink 边框 */
+      --lp-accent: #E89EB8;   /* Soft Pink 标题/强调 */
+      --lp-text: #6B4C5A;     /* 深玫瑰灰 正文（保证对比度） */
+      --lp-hover: #FFB3C9;    /* Cherry Blossom Pink 悬停 */
+      background: var(--lp-bg);
+      border-color: var(--lp-border);
+      color: var(--lp-text);
+    }
+    .card.love-pink h3,
+    .card.love-pink a { color: var(--lp-accent); }
+    .card.love-pink p { color: var(--lp-text); opacity: 1; }
+    .card.love-pink .card-img { border: 2px solid var(--lp-border); }
+    .card.love-pink .card-img:hover { outline: 3px solid var(--lp-hover); outline-offset: 2px; }
+    
+    /* 恋爱粉 Lightbox 适配 */
+    .card.love-pink .lightbox { background: rgba(255, 240, 243, 0.96); }
+    .card.love-pink .lightbox img { border: 4px solid var(--lp-border); }
+
+    /* 暗色模式下的恋爱粉 */
+    @media (prefers-color-scheme: dark) {
+      .card.love-pink {
+        --lp-bg: #3D2B33;
+        --lp-border: #6B4C5A;
+        --lp-accent: #FFB3C9;
+        --lp-text: #FFE4EC;
+        --lp-hover: #E89EB8;
+      }
+    }
+
+    /* ===== 纯CSS Lightbox 通用样式 ===== */
+    .lightbox {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+      z-index: 1000; align-items: center; justify-content: center; cursor: zoom-out;
+    }
+    .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 8px; }
+    input[type="checkbox"]:checked + .lightbox { display: flex; }
+
+    /* ===== 技能 & 联系 & 页脚 ===== */
     .skills { display: flex; flex-wrap: wrap; gap: 0.75rem; }
     .skill { background: var(--card-bg); border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.9rem; }
-
-    /* 联系区 */
     .contact-links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
-
     footer { text-align: center; padding: 2rem 0; opacity: 0.7; font-size: 0.85rem; border-top: 1px solid var(--border); }
 
-    /* 移动端优化 */
     @media (max-width: 640px) {
       h1 { font-size: 2rem; }
       header { padding: 3rem 0 1.5rem; }
@@ -57,7 +95,7 @@
 <body>
   <div class="container">
     <header>
-      </欢迎来到我的个人网站>Hi, 我是 Donk666China 👋</欢迎来到我的个人网站>
+      <h1>Hi, 我是 Donk666China 👋</h1>
       <p class="tagline">开发者 / 创作者 / 终身学习者</p>
     </header>
 
@@ -69,10 +107,52 @@
     <section id="projects">
       <h2>精选项目</h2>
       <div class="projects">
-        <article class="card">
-          <h3><a href="#">🚀 项目名称 A</a></h3>
-          <p>一句话描述这个项目的核心价值与技术亮点。</p>
+        
+        <!-- ✨ 项目一：恋爱粉主题 + 9张图片 -->
+        <article class="card love-pink">
+          <h3>💖 恩泽美图</h3>
+          <p>点击下方缩略图可查看大图，共 9 张项目实拍图。</p>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; margin-top:0.75rem;">
+            <!-- 图片 1 -->
+            <label for="lb-1"><img src="images/1.jpg" alt="项目图1" class="card-img"></label>
+            <input type="checkbox" id="lb-1" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/1.jpg" alt="项目图1大图"></div>
+            <!-- 图片 2 -->
+            <label for="lb-2"><img src="images/2.jpg" alt="项目图2" class="card-img"></label>
+            <input type="checkbox" id="lb-2" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/2.jpg" alt="项目图2大图"></div>
+            <!-- 图片 3 -->
+            <label for="lb-3"><img src="images/3.jpg" alt="项目图3" class="card-img"></label>
+            <input type="checkbox" id="lb-3" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/3.jpg" alt="项目图3大图"></div>
+            <!-- 图片 4 -->
+            <label for="lb-4"><img src="images/4.jpg" alt="项目图4" class="card-img"></label>
+            <input type="checkbox" id="lb-4" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/4.jpg" alt="项目图4大图"></div>
+            <!-- 图片 5 -->
+            <label for="lb-5"><img src="images/5.jpg" alt="项目图5" class="card-img"></label>
+            <input type="checkbox" id="lb-5" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/5.jpg" alt="项目图5大图"></div>
+            <!-- 图片 6 -->
+            <label for="lb-6"><img src="images/6.jpg" alt="项目图6" class="card-img"></label>
+            <input type="checkbox" id="lb-6" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/6.jpg" alt="项目图6大图"></div>
+            <!-- 图片 7 -->
+            <label for="lb-7"><img src="images/7.jpg" alt="项目图7" class="card-img"></label>
+            <input type="checkbox" id="lb-7" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/7.jpg" alt="项目图7大图"></div>
+            <!-- 图片 8 -->
+            <label for="lb-8"><img src="images/8.jpg" alt="项目图8" class="card-img"></label>
+            <input type="checkbox" id="lb-8" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/8.jpg" alt="项目图8大图"></div>
+            <!-- 图片 9 -->
+            <label for="lb-9"><img src="images/9.jpg" alt="项目图9" class="card-img"></label>
+            <input type="checkbox" id="lb-9" hidden>
+            <div class="lightbox" onclick="this.previousElementSibling.checked=false"><img src="images/9.jpg" alt="项目图9大图"></div>
+          </div>
         </article>
+
+        <!-- 项目二、三保持默认主题 -->
         <article class="card">
           <h3><a href="#">🎨 项目名称 B</a></h3>
           <p>一句话描述这个项目的核心价值与技术亮点。</p>
@@ -100,9 +180,8 @@
       <h2>联系我</h2>
       <p>欢迎通过以下方式与我交流：</p>
       <div class="contact-links">
-        <a href="3919186575@qq.com">📧 邮箱</a>
+        <a href="mailto:3919186575@qq.com">📧 邮箱</a>
         <a href="https://github.com/donk666China" target="_blank" rel="noopener">🐙 GitHub</a>
-        <a href="#" target="_blank" rel="noopener">💼 LinkedIn</a>
       </div>
     </section>
 
